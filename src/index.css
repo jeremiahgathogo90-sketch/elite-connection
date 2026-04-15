@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #2D6A4F;
+  --green-dark: #1B4332;
+  --green-light: #52B788;
+  --yellow: #F4D000;
+  --yellow-dark: #B8860B;
+}
+
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; color: #1a1a1a; }
