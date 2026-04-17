@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="195" fill="#2D6A4F"/>
+  <circle cx="200" cy="200" r="185" fill="none" stroke="#F4D000" stroke-width="4"/>
+
+  <!-- Bag shape - main body -->
+  <rect x="115" y="165" width="170" height="130" rx="12" fill="#F4D000"/>
+  
+  <!-- Bag handle left -->
+  <path d="M155 165 Q155 125 175 115 Q195 108 200 108 Q205 108 225 115 Q245 125 245 165" 
+        fill="none" stroke="#F4D000" stroke-width="14" stroke-linecap="round"/>
+  
+  <!-- Bag body overlay for depth -->
+  <rect x="115" y="185" width="170" height="110" rx="0" fill="#E8C200" opacity="0.3"/>
+
+  <!-- E letter on bag -->
+  <text x="200" y="252" 
+        font-family="Georgia, serif" 
+        font-size="72" 
+        font-weight="bold" 
+        fill="#2D6A4F" 
+        text-anchor="middle"
+        dominant-baseline="middle">E</text>
+
+  <!-- Stars decoration -->
+  <circle cx="120" cy="120" r="4" fill="#F4D000" opacity="0.6"/>
+  <circle cx="280" cy="100" r="3" fill="#F4D000" opacity="0.5"/>
+  <circle cx="300" cy="290" r="4" fill="#F4D000" opacity="0.6"/>
+  <circle cx="100" cy="280" r="3" fill="#F4D000" opacity="0.5"/>
+
+  <!-- ELITE text -->
+  <text x="200" y="328" 
+        font-family="Georgia, serif" 
+        font-size="22" 
+        font-weight="bold" 
+        fill="#F4D000" 
+        text-anchor="middle"
+        letter-spacing="8">ELITE</text>
+
+  <!-- CONNECTIONS text -->
+  <text x="200" y="355" 
+        font-family="Georgia, serif" 
+        font-size="15" 
+        fill="#ffffff" 
+        text-anchor="middle"
+        letter-spacing="4">CONNECTIONS</text>
+
+  <!-- LIMITED text -->
+  <text x="200" y="375" 
+        font-family="Arial, sans-serif" 
+        font-size="10" 
+        fill="#95D5B2" 
+        text-anchor="middle"
+        letter-spacing="6">LIMITED</text>
+
+</svg>
