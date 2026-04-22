@@ -4,19 +4,39 @@ import { supabase } from '../lib/supabaseClient'
 import ProductCard from '../components/ProductCard'
 import { ArrowRight, Package, Truck, ShieldCheck, Phone, Flame, Star } from 'lucide-react'
 
+const categoryIcons = {
+  'non-woven-bags': '🛍️',
+  'gift-bags': '🎁',
+  'khaki-bags': '👜',
+  'straws': '🥤',
+  'disposable-cups': '☕',
+  'disposable-plates': '🍽️',
+  'nigerian-bags': '👜',
+  'tapes': '🎀',
+  'happy-birthday-bags': '🎉',
+  '3d-bag': '🎒',
+  'd-cut-bag': '🛍️',
+  '4d-bags': '🛍️',
+  'sinny-bags': '👛',
+  'smart-bags': '💼',
+}
+
 export default function HomePage() {
+  const [categories, setCategories] = useState([])
   const [featured, setFeatured] = useState([])
   const [newItems, setNewItems] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
-      const [{ data: featuredProds }, { data: newProds }] = await Promise.all([
+      const [{ data: featuredProds }, { data: newProds }, { data: cats }] = await Promise.all([
         supabase.from('products').select('*').eq('is_featured', true).eq('is_active', true).limit(10),
         supabase.from('products').select('*').eq('is_active', true).order('created_at', { ascending: false }).limit(10),
+        supabase.from('categories').select('*').order('name'),
       ])
       setFeatured(featuredProds || [])
       setNewItems(newProds || [])
+      setCategories(cats || [])
       setLoading(false)
     }
     fetchData()
@@ -83,7 +103,7 @@ export default function HomePage() {
           </div>
 
           {/* Icons row */}
-          <div className="hidden md:flex items-center gap-2 shrink-0">
+          <div className="hidden md:flex items-center gap-1 shrink-0">
             {['🛍️', '🎁', '👜', '🥤', '☕', '🍽️'].map((icon, i) => (
               <div
                 key={i}
@@ -100,7 +120,7 @@ export default function HomePage() {
       <section className="bg-[#F4D000] py-3">
         <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-6 text-[#1B4332] text-sm font-medium">
           <span className="flex items-center gap-2">
-            <Truck size={16} /> Free CBD delivery over KSh 10,000
+            <Truck size={16} /> Free CBD delivery over KSh 2,000
           </span>
           <span className="flex items-center gap-2">
             <Package size={16} /> Wholesale &amp; Retail
@@ -109,15 +129,63 @@ export default function HomePage() {
             <ShieldCheck size={16} /> Quality Guaranteed
           </span>
           <span className="flex items-center gap-2">
-            <Phone size={16} /> 0723 041 535/  0707 579 033
+            <Phone size={16} /> 0723 041 535
           </span>
         </div>
       </section>
+
+      {/* Shop by Category */}
+      <section className="max-w-7xl mx-auto px-2 py-2">
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-3 bg-[#2D6A4F] rounded-full"></div>
+            <h2 className="text-xl font-bold text-gray-800 font-serif">Shop by Category</h2>
+          </div>
+          <Link
+            to="/products"
+            className="text-[#2D6A4F] text-sm font-medium hover:underline flex items-center gap-1"
+          >
+            See All <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        {/* 2 rows x 4 cols desktop, 2 rows x 2 cols mobile */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {loading ? (
+            [...Array(8)].map((_, i) => (
+              <div key={i} className="bg-gray-100 rounded-2xl h-24 animate-pulse" />
+            ))
+          ) : (
+            categories.slice(0, 8).map(cat => (
+              <Link
+                key={cat.id}
+                to={`/category/${cat.slug}`}
+                className="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-[#2D6A4F] hover:shadow-sm transition-all group"
+              >
+                <div className="w-12 h-12 bg-[#D8F3DC] rounded-xl flex items-center justify-center text-2xl group-hover:bg-[#2D6A4F] transition-colors">
+                  <span className="group-hover:scale-110 transition-transform inline-block">
+                    {categoryIcons[cat.slug] || '📦'}
+                  </span>
+                </div>
+                <p className="text-xs text-center text-gray-600 group-hover:text-[#2D6A4F] font-medium leading-tight">
+                  {cat.name}
+                </p>
+              </Link>
+            ))
+          )}
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="border-t border-gray-100" />
+      </div>
 
       {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 py-10">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
+            <div className="w-1 h-6 bg-[#F4D000] rounded-full"></div>
             <div className="w-8 h-8 bg-[#F4D000] rounded-lg flex items-center justify-center">
               <Star size={16} className="text-[#1B4332]" />
             </div>
@@ -142,6 +210,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 py-10">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
+            <div className="w-1 h-6 bg-[#2D6A4F] rounded-full"></div>
             <div className="w-8 h-8 bg-[#2D6A4F] rounded-lg flex items-center justify-center">
               <Flame size={16} className="text-white" />
             </div>
