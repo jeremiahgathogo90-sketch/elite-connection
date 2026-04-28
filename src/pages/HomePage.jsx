@@ -14,11 +14,24 @@ const categoryIcons = {
   'nigerian-bags': '👜',
   'tapes': '🎀',
   'happy-birthday-bags': '🎉',
+  '3d-bags': '🎒',
   '3d-bag': '🎒',
+  'd-cut-bags': '🛍️',
   'd-cut-bag': '🛍️',
   '4d-bags': '🛍️',
+  '4d-bag': '🛍️',
   'sinny-bags': '👛',
+  'shinny-bags': '👛',
   'smart-bags': '💼',
+  'flower-bags-import': '🌸',
+  'flower-bags-local': '🌺',
+  'foil': '✨',
+  'nets': '🪢',
+  'roll-net': '🪢',
+  'ropes': '🪢',
+  'sacks': '🧺',
+  'scarbers': '📦',
+  'cling-film': '🎬',
 }
 
 export default function HomePage() {
@@ -69,6 +82,25 @@ export default function HomePage() {
     )
   }
 
+  function CategoryCard({ cat }) {
+    return (
+      <Link
+        key={cat.id}
+        to={`/category/${cat.slug}`}
+        className="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-[#2D6A4F] hover:shadow-sm transition-all group"
+      >
+        <div className="w-12 h-12 bg-[#D8F3DC] rounded-xl flex items-center justify-center text-2xl group-hover:bg-[#2D6A4F] transition-colors">
+          <span className="group-hover:scale-110 transition-transform inline-block">
+            {categoryIcons[cat.slug] || '📦'}
+          </span>
+        </div>
+        <p className="text-xs text-center text-gray-600 group-hover:text-[#2D6A4F] font-medium leading-tight">
+          {cat.name}
+        </p>
+      </Link>
+    )
+  }
+
   return (
     <main>
 
@@ -102,8 +134,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Icons row */}
-          <div className="hidden md:flex items-center gap-1 shrink-0">
+          {/* Icons row - desktop only */}
+          <div className="hidden md:flex items-center gap-2 shrink-0">
             {['🛍️', '🎁', '👜', '🥤', '☕', '🍽️'].map((icon, i) => (
               <div
                 key={i}
@@ -135,10 +167,10 @@ export default function HomePage() {
       </section>
 
       {/* Shop by Category */}
-      <section className="max-w-7xl mx-auto px-2 py-2">
+      <section className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
-            <div className="w-1 h-3 bg-[#2D6A4F] rounded-full"></div>
+            <div className="w-1 h-6 bg-[#2D6A4F] rounded-full"></div>
             <h2 className="text-xl font-bold text-gray-800 font-serif">Shop by Category</h2>
           </div>
           <Link
@@ -149,28 +181,28 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* 2 rows x 4 cols desktop, 2 rows x 2 cols mobile */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {/* Mobile: exactly 2 rows x 2 cols = 4 items */}
+        <div className="grid grid-cols-2 gap-3 sm:hidden">
+          {loading ? (
+            [...Array(4)].map((_, i) => (
+              <div key={i} className="bg-gray-100 rounded-2xl h-24 animate-pulse" />
+            ))
+          ) : (
+            categories.slice(0, 4).map(cat => (
+              <CategoryCard key={cat.id} cat={cat} />
+            ))
+          )}
+        </div>
+
+        {/* Desktop: exactly 2 rows x 4 cols = 8 items */}
+        <div className="hidden sm:grid sm:grid-cols-4 gap-3">
           {loading ? (
             [...Array(8)].map((_, i) => (
               <div key={i} className="bg-gray-100 rounded-2xl h-24 animate-pulse" />
             ))
           ) : (
             categories.slice(0, 8).map(cat => (
-              <Link
-                key={cat.id}
-                to={`/category/${cat.slug}`}
-                className="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-[#2D6A4F] hover:shadow-sm transition-all group"
-              >
-                <div className="w-12 h-12 bg-[#D8F3DC] rounded-xl flex items-center justify-center text-2xl group-hover:bg-[#2D6A4F] transition-colors">
-                  <span className="group-hover:scale-110 transition-transform inline-block">
-                    {categoryIcons[cat.slug] || '📦'}
-                  </span>
-                </div>
-                <p className="text-xs text-center text-gray-600 group-hover:text-[#2D6A4F] font-medium leading-tight">
-                  {cat.name}
-                </p>
-              </Link>
+              <CategoryCard key={cat.id} cat={cat} />
             ))
           )}
         </div>
@@ -228,16 +260,24 @@ export default function HomePage() {
 
       {/* CTA Banner */}
       <section className="bg-[#1B4332] text-white py-12 px-4 text-center mt-4">
-        <h2 className="text-2xl font-bold font-serif mb-2">Need Bulk Orders?</h2>
+        <h2 className="text-2xl font-bold font-serif mb-2">Need a Custom Order?</h2>
         <p className="text-green-300 mb-6">
-          We offer competitive wholesale prices for businesses across Kenya.
+          Specify your size, color, quantity and branding — we'll deliver exactly what you need.
         </p>
-        <a
-          href="tel:0723041535"
-          className="bg-[#F4D000] text-[#1B4332] font-bold px-8 py-3 rounded-xl hover:bg-yellow-300 transition-colors inline-flex items-center gap-2"
-        >
-          <Phone size={16} /> Call 0723 041 535
-        </a>
+        <div className="flex gap-3 justify-center flex-wrap">
+          <Link
+            to="/custom-order"
+            className="bg-[#F4D000] text-[#1B4332] font-bold px-8 py-3 rounded-xl hover:bg-yellow-300 transition-colors inline-flex items-center gap-2"
+          >
+            <Package size={16} /> Request Custom Order
+          </Link>
+          <a
+            href="tel:0723041535"
+            className="border border-white border-opacity-40 text-white px-8 py-3 rounded-xl hover:bg-white hover:bg-opacity-10 transition-colors inline-flex items-center gap-2"
+          >
+            <Phone size={16} /> Call 0723 041 535
+          </a>
+        </div>
       </section>
 
       {/* Floating WhatsApp Button */}
