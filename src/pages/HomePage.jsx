@@ -31,7 +31,7 @@ const categoryIcons = {
   'ropes': '🪢',
   'sacks': '🧺',
   'scarbers': '📦',
-  'cling-film': '🎬',
+  'cling-film': '',
 }
 
 export default function HomePage() {
